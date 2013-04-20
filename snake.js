@@ -113,12 +113,13 @@ Grid.prototype.addApple = function() {
 };
 
 Grid.prototype.remainingApples = function() {
-  return 'TODO';
+  var count = 0;
+  for (var i = this.rows.length - 1; i >= 0; i--) {
+    var m = this.rows[i].join('').match(/A/g);
+    count += ( m ? m.length : 0);
+  };
+  return count;
 };
-
-
-
-
 
 function Snake(x, y) {
   this.x = Math.floor(x);
