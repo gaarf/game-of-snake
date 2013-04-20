@@ -90,6 +90,7 @@ function Grid(h, w) {
   this.h = h;
   this.w = w;
   this.rows = [];
+  this.apples = 0;
   for (var i = 0; i < h; i++) {
     var row = [];
     for (var j = 0; j < w; j++) {
@@ -125,6 +126,7 @@ Grid.prototype.remainingApples = function() {
     var m = this.rows[i].join('').match(/A/g);
     count += ( m ? m.length : 0 );
   }
+  this.apples = count;
   return count;
 };
 
@@ -136,8 +138,7 @@ function Snake(x, y) {
   return this;
 }
 
-Snake.prototype.isOnApple = function(grid) {
-  return grid.rows[this.y][this.x] === 'A';
+Snake.prototype.isOnApple = function(grid) {this.apples-- return grid.rows[this.y][this.x] === 'A';
 };
 
 Snake.prototype.move = function(bearing) {
