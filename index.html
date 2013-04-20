@@ -17,7 +17,7 @@
         game.iterate(bearing);
         bearing = null;
         if(game.isOver()) {
-          $('#gameover').appendTo($world).show();
+          $('#gameover').appendTo($world).show().focus();
           return;
         }
         $score.find('.iter').text(iter++);
