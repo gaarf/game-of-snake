@@ -1,0 +1,125 @@
+<html>
+<head>
+  <title>SNAKE GAME!</title>
+  <script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+  <script src="snake.js"></script>
+  <script type="text/javascript">
+
+$(function() {
+
+  var $world = $('#world')
+    , bearing = 'n' // north
+    , game = new Game({h:20, w:40, apples:20});
+
+  function cycle() {
+    game.iterate(bearing);
+    bearing = null;
+    if(game.isOver()) {
+      $('#gameover').appendTo($world).show();
+
+      return;
+    }
+    $world.html(game.toHtml());
+    setTimeout(cycle, 200);
+  }
+
+  $(document).on('keyup', function(ev){
+    bearing = {38:'N',39:'E',40:'S',37:'W'}[ev.which];
+  });
+
+  cycle();
+
+});
+
+  </script>
+  <style type="text/css">
+    body {
+      margin:20px;
+      font-family: sans-serif;
+    }
+    #world {
+      position:relative;
+      float:left;
+      border-top:1px solid #ddd;
+    }
+    #world ul {
+      padding:0;
+      margin:0;
+      border:1px solid #ddd;
+      border-right:none;
+      border-top:none;
+    }
+    #world li {
+      width:16px;
+      height:16px;
+      line-height: 16px;
+      font-size: 10px;
+      display:inline-block;
+      text-align: center;
+      overflow: hidden;
+      border-right:1px solid #ddd;
+      list-style: none;
+      color:#eee;
+    }
+
+    #world li.snake {
+      color:black;
+      background-color: orange;
+    }
+    #world li.snake.tail {
+      color:orange;
+    }
+
+    #world li.apple {
+      background-color: red;
+      color:white;
+    }
+
+    #score {
+      float:right;
+      border:1px solid blue;
+    }
+
+    #gameover {
+      position: absolute;
+      display: none;
+      top:0;
+      right:0;
+      left:0;
+      bottom:0;
+      display:none;
+      padding:30px;
+      background-color: black;
+      color:white;
+      opacity: .5;
+      text-align: center;
+      text-decoration: none;
+    }
+    #gameover strong {
+      font-size: 88px;
+    }
+    #gameover span {
+      position:absolute;
+      bottom:30px;
+      left:0;
+      right:0;
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <div id="world"></div>
+  <ul id="score">
+    <li>Iteration: <em>0</em></li>
+    <li>Remaining apple: <em>0</em></li>
+    <li>Tail length: <em>0</em></li>
+  </ul>
+  <a href="javascript:location.reload()" id="gameover">
+    <strong>GAME OVER</strong><br>
+    <span>click to play again!</span>
+  </a>
+
+</body>
+</html>
+
+
