@@ -8,13 +8,13 @@ function Game(o) {
 }
 
 
-Game.prototype.toText = function() {
-  return this.toArray().map(function(row){
-    return row.map(function(cell){
-      return cell || '\u00B7';
-    }).join('');
-  }).join('\n');
-};
+// Game.prototype.toText = function() {
+//   return this.toArray().map(function(row){
+//     return row.map(function(cell){
+//       return cell || '\u00B7';
+//     }).join('');
+//   }).join('\n');
+// };
 
 Game.prototype.toHtml = function() {
   var isMac = navigator.userAgent.match('Macintosh');
@@ -55,6 +55,8 @@ Game.prototype.toHtml = function() {
   }).join('\n');
 };
 
+
+
 Game.prototype.toArray = function() {
   var copy = this.grid.rows.slice(0).map(function(row){
     return row.slice(0);
@@ -67,11 +69,15 @@ Game.prototype.toArray = function() {
   return copy;
 };
 
+
+
+
 Game.prototype.isOver = function() {
   return ( (this.snake.x > this.grid.w-1)
         || (this.snake.y > this.grid.h-1)
         || (this.snake.y < 0)
         || (this.snake.x < 0)
+        || (this.snake.collideSelf())
   );
 };
 
@@ -100,7 +106,7 @@ function Grid(h, w) {
   return this;
 }
 
-Grid.prototype.addApple = function(count) {
+Grid.prototype.addApple = function() {
   var x = Math.floor(Math.random() * this.w)
     , y = Math.floor(Math.random() * this.h);
   this.rows[y][x] = 'A';
@@ -130,7 +136,10 @@ Snake.prototype.move = function(bearing) {
   if({N:1,S:1,E:1,W:1}[bearing]) {
     this.bearing = bearing;
   }
-  var p = {x:this.x, y:this.y};
+  if(this.tail.length) {
+    this.tail.shift();
+    this.tail.push({x:this.x, y:this.y});
+  }
   switch(this.bearing) {
     case 'N':
       this.y--;
@@ -145,10 +154,6 @@ Snake.prototype.move = function(bearing) {
       this.x--;
       break;
   }
-  if(this.tail.length) {
-    this.tail.shift();
-    this.tail.push(p);
-  }
 };
 
 Snake.prototype.addTo = function(rows) {
@@ -157,4 +162,13 @@ Snake.prototype.addTo = function(rows) {
 
 Snake.prototype.grow = function() {
   this.tail.push({x:this.x, y:this.y});
+};
+
+Snake.prototype.collideSelf = function() {
+  for (var i = this.tail.length - 1; i >= 0; i--) {
+    var t = this.tail[i]
+    if (this.x === t.x && this.y === t.y) {
+      return true;
+    }
+  }
 };

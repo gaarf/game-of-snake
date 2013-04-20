@@ -24,7 +24,7 @@
         $score.find('.tail').text(game.snake.tail.length);
         $score.find('.appl').text(game.grid.remainingApples());
         $world.html(game.toHtml());
-        setTimeout(cycle, 200);
+        setTimeout(cycle, 150);
       }
 
       $(document).on('keyup', function(ev){
