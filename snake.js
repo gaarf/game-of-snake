@@ -138,7 +138,8 @@ function Snake(x, y) {
   return this;
 }
 
-Snake.prototype.isOnApple = function(grid) {this.apples-- return grid.rows[this.y][this.x] === 'A';
+Snake.prototype.isOnApple = function(grid) {
+  return grid.rows[this.y][this.x] === 'A';
 };
 
 Snake.prototype.move = function(bearing) {
