@@ -106,6 +106,13 @@ Grid.prototype.addApple = function(count) {
   this.rows[y][x] = 'A';
 };
 
+Grid.prototype.remainingApples = function() {
+  return 'TODO';
+};
+
+
+
+
 
 function Snake(x, y) {
   this.x = Math.floor(x);
