@@ -22,7 +22,7 @@
         }
         $score.find('.iter').text(iter++);
         $score.find('.tail').text(game.snake.tail.length);
-        $score.find('.appl').text(game.grid.countRemainingApples());
+        $score.find('.appl').text(game.grid.apples);
         $world.html(game.toHtml());
         setTimeout(cycle, 150);
       }

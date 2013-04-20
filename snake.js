@@ -4,15 +4,6 @@ function Game(o) {
   return this;
 }
 
-
-// Game.prototype.toText = function() {
-//   return this.toArray().map(function(row){
-//     return row.map(function(cell){
-//       return cell || '\u00B7';
-//     }).join('');
-//   }).join('\n');
-// };
-
 Game.prototype.toHtml = function() {
   var isMac = navigator.userAgent.match('Macintosh');
   return this.toArray().map(function(row){
@@ -80,13 +71,28 @@ Game.prototype.isOver = function() {
 
 Game.prototype.iterate = function(bearing) {
   if(this.snake.isOnApple(this.grid)) {
+
     // remove the apple
     this.grid.apples--;
     this.grid.rows[this.snake.y][this.snake.x] = '';
+
+    // increase difficulty
     this.snake.grow();
+
   }
+  else if(!this.grid.apples) {
+    this.grid.addRandomApples(0.02, 0.03);
+  }
+
   this.snake.move(bearing);
 };
+
+
+
+
+
+
+
 
 function Grid(h, w) {
   this.h = h;
@@ -101,8 +107,8 @@ function Grid(h, w) {
     this.rows.push(row);
   };
 
-  this.addRandomApples(0.01, 0.1);
-  this.countRemainingApples();
+  this.addRandomApples(0.01, 0.02);
+
   return this;
 }
 
@@ -110,6 +116,7 @@ Grid.prototype.addRandomApples = function(min, max) {
   var size = this.w * this.h;
   min = (min || 0) * size;
   max = (max || 1) * size;
+
   // how many apples do we want?
   var a = Math.floor(Math.random() * (max - min) + min);
 
@@ -119,18 +126,19 @@ Grid.prototype.addRandomApples = function(min, max) {
     this.rows[y][x] = 'A';
   };
 
-};
-
-
-Grid.prototype.countRemainingApples = function() {
+  // how many apples this we actually add ?
   var count = 0;
   for (var i = this.rows.length - 1; i >= 0; i--) {
     var m = this.rows[i].join('').match(/A/g);
     count += ( m ? m.length : 0 );
   }
+
   this.apples = count;
-  return count;
 };
+
+
+
+
 
 function Snake(x, y) {
   this.x = Math.floor(x);
