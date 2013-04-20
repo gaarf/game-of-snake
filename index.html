@@ -3,129 +3,41 @@
   <title>SNAKE GAME!</title>
   <script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
   <script src="snake.js"></script>
+  <link href="style.css" rel="stylesheet" type="text/css" />
   <script type="text/javascript">
+    $(function() {
 
-$(function() {
+      var bearing
+        , iter = 0
+        , $world = $('#world')
+        , $score = $('#score')
+        , game = new Game({h:20, w:40});
 
-  var bearing
-    , iter = 0
-    , $world = $('#world')
-    , $score = $('#score')
-    , game = new Game({h:20, w:40, apples:20});
+      function cycle() {
+        game.iterate(bearing);
+        bearing = null;
+        if(game.isOver()) {
+          $('#gameover').appendTo($world).show().focus();
+          return;
+        }
+        $score.find('.iter').text(iter++);
+        $score.find('.tail').text(game.snake.tail.length);
+        $score.find('.appl').text(game.grid.countRemainingApples());
+        $world.html(game.toHtml());
+        setTimeout(cycle, 150);
+      }
 
-  function cycle() {
-    game.iterate(bearing);
-    bearing = null;
-    if(game.isOver()) {
-      $('#gameover').appendTo($world).show();
-      return;
-    }
-    $score.find('.iter').text(iter++);
-    $score.find('.tail').text(game.snake.tail.length);
-    $score.find('.appl').text(game.grid.remainingApples());
-    $world.html(game.toHtml());
-    setTimeout(cycle, 200);
-  }
+      $(document).on('keydown', function(ev){
+        bearing = {38:'N',39:'E',40:'S',37:'W'}[ev.which];
+        if(bearing) {
+          ev.preventDefault();          
+        }
+      });
 
-  $(document).on('keyup', function(ev){
-    bearing = {38:'N',39:'E',40:'S',37:'W'}[ev.which];
-  });
+      cycle();
 
-  cycle();
-
-});
-
+    });
   </script>
-  <style type="text/css">
-    body {
-      margin:20px;
-      font-family: sans-serif;
-    }
-    #world {
-      position:relative;
-      float:left;
-      border-top:1px solid #ddd;
-    }
-    #world ul {
-      padding:0;
-      margin:0;
-      border:1px solid #ddd;
-      border-right:none;
-      border-top:none;
-    }
-    #world li {
-      width:16px;
-      height:16px;
-      line-height: 16px;
-      font-size: 10px;
-      display:inline-block;
-      text-align: center;
-      overflow: hidden;
-      border-right:1px solid #ddd;
-      list-style: none;
-      color:#eee;
-    }
-
-    #world li.snake {
-      color:black;
-      background-color: orange;
-    }
-    #world li.snake.tail {
-      opacity: .8;
-    }
-
-    #world li.apple {
-      background-color: red;
-      color:white;
-    }
-
-    #score {
-      float:right;
-      padding: 10px;
-      border: 1px dashed #ddd;
-      font-size: 12px;
-    }
-    #score li {
-      list-style: none;
-      text-align: right;
-      line-height: 16px;
-      color:gray;
-    }
-    #score li > em {
-      font-style: normal;
-      padding:0 .5em;
-      background-color: black;
-      font-family: monospace;
-      color:yellow;
-      border-radius: 4px;
-    }
-
-    #gameover {
-      position: absolute;
-      display: none;
-      top:0;
-      right:0;
-      left:0;
-      bottom:0;
-      display:none;
-      padding:30px;
-      background-color: black;
-      color:white;
-      opacity: .5;
-      text-align: center;
-      text-decoration: none;
-    }
-    #gameover strong {
-      font-size: 88px;
-    }
-    #gameover span {
-      position:absolute;
-      bottom:30px;
-      left:0;
-      right:0;
-      text-decoration: underline;
-    }
-  </style>
 </head>
 <body>
   <div id="world"></div>
