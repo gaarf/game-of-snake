@@ -84,7 +84,8 @@ Game.prototype.iterate = function(bearing) {
     this.grid.addRandomApples(0.02, 0.03);
   }
 
-  this.snake.move(bearing);
+  this.snake.updateBearing(bearing)
+  this.snake.move();
 };
 
 
@@ -152,10 +153,31 @@ Snake.prototype.isOnApple = function(grid) {
   return grid.rows[this.y][this.x] === 'A';
 };
 
-Snake.prototype.move = function(bearing) {
-  if({N:1,S:1,E:1,W:1}[bearing]) {
+Snake.prototype.updateBearing = function(bearing) {
+ var validBearings = {N:1,S:1,E:1,W:1};
+  //prevent suicide
+  switch(this.bearing) {
+    case 'N':
+      delete validBearings.S;
+      break;
+    case 'S':
+      delete validBearings.N;
+      break;
+    case 'E':
+      delete validBearings.W;
+      break;
+    case 'W':
+      delete validBearings.E;
+      break;
+  }
+
+  if(validBearings[bearing]) {
     this.bearing = bearing;
   }
+};
+
+Snake.prototype.move = function() {
+
   if(this.tail.length) {
     this.tail.shift();
     this.tail.push({x:this.x, y:this.y});
