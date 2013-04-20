@@ -80,6 +80,8 @@ Game.prototype.isOver = function() {
 
 Game.prototype.iterate = function(bearing) {
   if(this.snake.isOnApple(this.grid)) {
+    // remove the apple
+    this.grid.apples--;
     this.grid.rows[this.snake.y][this.snake.x] = '';
     this.snake.grow();
   }
@@ -100,7 +102,7 @@ function Grid(h, w) {
   };
 
   this.addRandomApples(0.01, 0.1);
-
+  this.countRemainingApples();
   return this;
 }
 
@@ -120,7 +122,7 @@ Grid.prototype.addRandomApples = function(min, max) {
 };
 
 
-Grid.prototype.remainingApples = function() {
+Grid.prototype.countRemainingApples = function() {
   var count = 0;
   for (var i = this.rows.length - 1; i >= 0; i--) {
     var m = this.rows[i].join('').match(/A/g);
