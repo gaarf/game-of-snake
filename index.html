@@ -11,7 +11,7 @@
         , iter = 0
         , $world = $('#world')
         , $score = $('#score')
-        , game = new Game({h:20, w:40, apples:20});
+        , game = new Game({h:20, w:40});
 
       function cycle() {
         game.iterate(bearing);
@@ -27,8 +27,11 @@
         setTimeout(cycle, 150);
       }
 
-      $(document).on('keyup', function(ev){
+      $(document).on('keydown', function(ev){
         bearing = {38:'N',39:'E',40:'S',37:'W'}[ev.which];
+        if(bearing) {
+          ev.preventDefault();          
+        }
       });
 
       cycle();
