@@ -61,7 +61,7 @@ Game.prototype.toArray = function() {
   var copy = this.grid.rows.slice(0).map(function(row){
     return row.slice(0);
   });
-  this.snake.addTo(copy);
+  copy[this.snake.y][this.snake.x] = this.snake.bearing;
   for (var i = 0; i < this.snake.tail.length; i++) {
     var t = this.snake.tail[i];
     copy[t.y][t.x] = 'T';
@@ -154,10 +154,6 @@ Snake.prototype.move = function(bearing) {
       this.x--;
       break;
   }
-};
-
-Snake.prototype.addTo = function(rows) {
-  rows[this.y][this.x] = this.bearing;
 };
 
 Snake.prototype.grow = function() {
