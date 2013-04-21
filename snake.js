@@ -81,6 +81,7 @@ Game.prototype.iterate = function(bearing) {
 
   }
   else if(!this.grid.apples) {
+    this.grid.level++;
     this.grid.addRandomApples(0.02, 0.03);
   }
 
@@ -89,17 +90,12 @@ Game.prototype.iterate = function(bearing) {
 };
 
 
-
-
-
-
-
-
 function Grid(h, w) {
   this.h = h;
   this.w = w;
   this.rows = [];
   this.apples = 0;
+  this.level = 1;
   for (var i = 0; i < h; i++) {
     var row = [];
     for (var j = 0; j < w; j++) {
@@ -136,9 +132,6 @@ Grid.prototype.addRandomApples = function(min, max) {
 
   this.apples = count;
 };
-
-
-
 
 
 function Snake(x, y) {
