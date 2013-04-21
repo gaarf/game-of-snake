@@ -2,6 +2,7 @@ function Game(o) {
   this.grid = new Grid(o.h, o.w);
   this.snake = new Snake(o.w/2, o.h/2);
   this.level = 1;
+  this.delay = 150;
   return this;
 }
 
@@ -83,6 +84,7 @@ Game.prototype.iterate = function(bearing) {
   }
   else if(!this.grid.apples) {
     this.level++;
+    this.delay = this.delay - 25
     this.grid.addRandomApples(0.02, 0.03);
   }
 
