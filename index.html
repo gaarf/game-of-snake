@@ -11,7 +11,7 @@
         , iter = 0
         , $world = $('#world')
         , $score = $('#score')
-        , game = new Game({h:20, w:40});
+        , game = new Game({h:20, w:30});
 
       function cycle() {
         game.iterate(bearing);
@@ -23,6 +23,7 @@
         $score.find('.iter').text(iter++);
         $score.find('.tail').text(game.snake.tail.length);
         $score.find('.appl').text(game.grid.apples);
+        $score.find('.level').text(game.level);
         $world.html(game.toHtml());
         setTimeout(cycle, 150);
       }
@@ -45,6 +46,7 @@
     <li>Iteration <em class="iter">0</em></li>
     <li>Tail length <em class="tail">0</em></li>
     <li>Remaining apples <em class="appl">0</em></li>
+    <li>Level <em class="level">1</em></li>
   </ul>
   <a href="javascript:location.reload()" id="gameover">
     <strong>GAME OVER</strong><br>
