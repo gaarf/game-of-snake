@@ -1,6 +1,7 @@
 function Game(o) {
   this.grid = new Grid(o.h, o.w);
   this.snake = new Snake(o.w/2, o.h/2);
+  this.level = 1;
   return this;
 }
 
@@ -81,7 +82,7 @@ Game.prototype.iterate = function(bearing) {
 
   }
   else if(!this.grid.apples) {
-    this.grid.level++;
+    this.level++;
     this.grid.addRandomApples(0.02, 0.03);
   }
 
@@ -95,7 +96,6 @@ function Grid(h, w) {
   this.w = w;
   this.rows = [];
   this.apples = 0;
-  this.level = 1;
   for (var i = 0; i < h; i++) {
     var row = [];
     for (var j = 0; j < w; j++) {

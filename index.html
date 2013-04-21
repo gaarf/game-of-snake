@@ -11,7 +11,7 @@
         , iter = 0
         , $world = $('#world')
         , $score = $('#score')
-        , game = new Game({h:20, w:20});
+        , game = new Game({h:20, w:30});
 
       function cycle() {
         game.iterate(bearing);
@@ -23,7 +23,7 @@
         $score.find('.iter').text(iter++);
         $score.find('.tail').text(game.snake.tail.length);
         $score.find('.appl').text(game.grid.apples);
-        $score.find('.level').text(game.grid.level);
+        $score.find('.level').text(game.level);
         $world.html(game.toHtml());
         setTimeout(cycle, 150);
       }
