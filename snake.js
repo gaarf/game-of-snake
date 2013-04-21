@@ -84,7 +84,7 @@ Game.prototype.iterate = function(bearing) {
   }
   else if(!this.grid.apples) {
     this.level++;
-    this.delay = this.delay - 25
+    this.delay = Math.max(this.delay - 15, 0);
     this.grid.addRandomApples(0.02, 0.03);
   }
 
