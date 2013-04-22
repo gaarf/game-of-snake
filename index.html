@@ -25,7 +25,7 @@
         $score.find('.appl').text(game.grid.apples);
         $score.find('.level').text(game.level);
         $world.html(game.toHtml());
-        setTimeout(cycle, 150);
+        setTimeout(cycle, game.delay);
       }
 
       $(document).on('keydown', function(ev){
